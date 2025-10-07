@@ -1,0 +1,24 @@
+[project]
+name = "mlops-2025"
+version = "0.1.0"
+description = "Titanic MLOps pipeline"
+readme = "README.md"
+authors = [
+    { name = "AHaydous", email = "amh118@usal.edu.lb" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "pandas",
+    "numpy",
+    "scikit-learn"
+]
+
+[project.scripts]
+mlops-2025 = "mlops_2025:main"
+
+[build-system]
+requires = ["uv_build>=0.8.21,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.dev-dependencies]
+jupyter = "*"
