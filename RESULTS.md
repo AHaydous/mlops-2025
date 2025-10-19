@@ -6,7 +6,12 @@
 - feature/predict-cli
 - feature/pipeline-runner
 
-## Pipeline Execution Results:
+## Final Metrics:
+- **Accuracy:** 83.28%
+- **Model:** Saved to `models/titanic_model.pkl`
+- **Detailed Metrics:** metrics/metrics.json
+
+## Results From Git Bash:
 
 User@DESKTOP-V121TQ0 MINGW64 ~/Desktop/mlops-2025 (feature/pipeline-runner)
 $ ./run_pipeline.sh
