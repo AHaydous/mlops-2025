@@ -27,17 +27,18 @@ uv run python scripts/featurize.py \
     --input data/processed/train_processed.csv \
     --output data/features/train_features.csv
 
-# Step 3: Training
+# Step 3: Training (this now creates models/titanic_model_test_set.csv)
 echo "=== Step 3: Training model ==="
 uv run python scripts/train.py \
     --input data/features/train_features.csv \
     --model_output models/titanic_model.pkl
 
-# Step 4: Evaluation
+# Step 4: Evaluation - USE THE PROPER TEST SET!
 echo "=== Step 4: Evaluating model ==="
 uv run python scripts/evaluate.py \
     --model_input models/titanic_model.pkl \
-    --test_data data/features/train_features.csv \
+    --test_data models/titanic_model_test_set.csv \
     --metrics_output metrics/metrics.json
 
 echo "=== Pipeline completed! ==="
+read -p "Pipeline finished — press Enter to close..."

@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score, classification_report
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Evaluate Titanic Model")
     p.add_argument("--model_input", required=True, help="Input model file")
-    p.add_argument("--test_data", required=True, help="Test data CSV file")
+    p.add_argument("--test_data", required=True, help="Test data CSV file") 
     p.add_argument("--metrics_output", required=True, help="Output metrics JSON file")
     return p
 
@@ -23,7 +23,7 @@ def main():
     with open(args.model_input, 'rb') as f:
         model = pickle.load(f)
     
-    # Load test data
+    # Load test data - NOW USING THE PROPER TEST SET
     print(f"Loading test data from {args.test_data}")
     test_df = pd.read_csv(args.test_data)
     
@@ -41,7 +41,7 @@ def main():
     print("Making predictions...")
     y_pred = model.predict(X_test)
     
-    # Compute accuracy (keep it simple as required)
+    # Compute metrics
     accuracy = accuracy_score(y_test, y_pred)
     
     # Print metrics
@@ -49,7 +49,7 @@ def main():
     print("Classification Report:")
     print(classification_report(y_test, y_pred))
     
-    # Save metrics to JSON (optionally as mentioned in lab)
+    # Save metrics to JSON
     metrics = {
         'accuracy': accuracy,
         'classification_report': classification_report(y_test, y_pred, output_dict=True)

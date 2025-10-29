@@ -5,6 +5,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
 import pickle
 
 def build_parser() -> argparse.ArgumentParser:
@@ -36,6 +37,14 @@ def main():
     if 'PassengerId' in X.columns:
         X = X.drop('PassengerId', axis=1)
     
+    # PROPER TRAIN/TEST SPLIT - 80/20 split
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+    
+    print(f"Training set: {X_train.shape}")
+    print(f"Test set: {X_test.shape}")
+    
     # Identify categorical and numerical columns
     categorical_cols = X.select_dtypes(include=['object']).columns.tolist()
     numerical_cols = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
@@ -50,24 +59,34 @@ def main():
             ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_cols)
         ])
     
-    # Create model pipeline with LogisticRegression (simple baseline as required)
+    # Create model pipeline with LogisticRegression
     model = Pipeline([
         ('preprocessor', preprocessor),
         ('classifier', LogisticRegression(random_state=42))
     ])
     
-    # Train model
+    # Train model on TRAINING SET only
     print("Training model...")
-    model.fit(X, y)
+    model.fit(X_train, y_train)
     
-    # Save model with pickle as required
+    # Save model
     with open(args.model_output, 'wb') as f:
         pickle.dump(model, f)
     
-    # Training metrics
-    train_score = model.score(X, y)
+    # Calculate accuracy on TRAINING SET and TEST SET
+    train_score = model.score(X_train, y_train)
+    test_score = model.score(X_test, y_test)
+    
     print(f"Model saved to {args.model_output}")
     print(f"Training accuracy: {train_score:.4f}")
+    print(f"Test accuracy: {test_score:.4f}")
+    
+    # Save test set for evaluation script
+    test_df = X_test.copy()
+    test_df['Survived'] = y_test
+    test_output_path = args.model_output.replace('.pkl', '_test_set.csv')
+    test_df.to_csv(test_output_path, index=False)
+    print(f"Test set saved to {test_output_path}")
 
 if __name__ == "__main__":
     main()
