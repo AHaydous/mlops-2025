@@ -187,23 +187,34 @@ Pipeline finished — press Enter to close...
 
 
 
-
 Answers for Section 4:
 
 1. Run the pipeline
 Executed ./run_pipeline.sh - achieved 82.68% test accuracy
 
+
 2. Add some features, rerun the pipeline
+
 Added Title + Family_size features - improved to 84.36% test accuracy
 
+
 3. What can we improve?
+
 Several improvements could enhance the pipeline further:
+
 	.Implement cross-validation for more robust model evaluation
+
 	.Experiment with different machine learning algorithms like Random Forest or Gradient Boosting
+	
 	.Add hyperparameter tuning to optimize model performance
+
 	.Create additional features like age bins or fare categories
+
 	.Address potential class imbalance in the survival labels
+
 	.Add more comprehensive logging and experiment tracking
 
+
 5. Change another feature, rerun the pipeline
+
 Modified Family_size binning - maintained 83.80% test accuracy
