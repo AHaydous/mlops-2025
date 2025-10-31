@@ -1,9 +1,13 @@
 import argparse
 import pandas as pd
-import pickle
 import json
 import os
+import sys
 from sklearn.metrics import accuracy_score, classification_report
+
+# Add src to path
+sys.path.append('src')
+from mlops_2025.models.logistic_model import LogisticModel
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Evaluate Titanic Model")
@@ -18,12 +22,12 @@ def main():
     # Create output directory if it doesn't exist
     os.makedirs(os.path.dirname(args.metrics_output), exist_ok=True)
     
-    # Load model
+    # Load model USING CLASS
     print(f"Loading model from {args.model_input}")
-    with open(args.model_input, 'rb') as f:
-        model = pickle.load(f)
+    model = LogisticModel()
+    model.load(args.model_input)
     
-    # Load test data - NOW USING THE PROPER TEST SET
+    # Load test data
     print(f"Loading test data from {args.test_data}")
     test_df = pd.read_csv(args.test_data)
     
@@ -33,11 +37,9 @@ def main():
     
     # Prepare features and target
     X_test = test_df.drop('Survived', axis=1)
-    if 'PassengerId' in X_test.columns:
-        X_test = X_test.drop('PassengerId', axis=1)
     y_test = test_df['Survived']
     
-    # Make predictions
+    # Make predictions USING CLASS
     print("Making predictions...")
     y_pred = model.predict(X_test)
     

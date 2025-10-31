@@ -1,7 +1,11 @@
 import argparse
 import pandas as pd
-import pickle
 import os
+import sys
+
+# Add src to path
+sys.path.append('src')
+from mlops_2025.models.logistic_model import LogisticModel
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Make predictions with Titanic Model")
@@ -16,10 +20,10 @@ def main():
     # Create output directory if it doesn't exist
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
     
-    # Load model
+    # Load model USING CLASS
     print(f"Loading model from {args.model_input}")
-    with open(args.model_input, 'rb') as f:
-        model = pickle.load(f)
+    model = LogisticModel()
+    model.load(args.model_input)
     
     # Load data for prediction (no label as required)
     print(f"Loading data from {args.input_data}")
@@ -33,7 +37,7 @@ def main():
     else:
         X = df
     
-    # Make predictions
+    # Make predictions USING CLASS
     print("Making predictions...")
     predictions = model.predict(X)
     
