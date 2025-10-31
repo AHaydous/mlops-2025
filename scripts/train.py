@@ -1,12 +1,12 @@
 import argparse
 import pandas as pd
 import os
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
+import sys
 from sklearn.model_selection import train_test_split
-import pickle
+
+# Add src to path
+sys.path.append('src')
+from mlops_2025.models.logistic_model import LogisticModel
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Train Titanic Survival Model")
@@ -33,11 +33,7 @@ def main():
     X = df.drop('Survived', axis=1)
     y = df['Survived']
     
-    # Drop PassengerId for training
-    if 'PassengerId' in X.columns:
-        X = X.drop('PassengerId', axis=1)
-    
-    # PROPER TRAIN/TEST SPLIT - 80/20 split
+    # Train/test split (YOUR EXACT LOGIC)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y
     )
@@ -45,43 +41,22 @@ def main():
     print(f"Training set: {X_train.shape}")
     print(f"Test set: {X_test.shape}")
     
-    # Identify categorical and numerical columns
-    categorical_cols = X.select_dtypes(include=['object']).columns.tolist()
-    numerical_cols = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
+    # USE CLASS INSTEAD OF DIRECT LOGIC
+    model = LogisticModel()
+    model.train(X_train, y_train)
     
-    print(f"Categorical columns: {categorical_cols}")
-    print(f"Numerical columns: {numerical_cols}")
-    
-    # Create preprocessing pipeline
-    preprocessor = ColumnTransformer(
-        transformers=[
-            ('num', StandardScaler(), numerical_cols),
-            ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_cols)
-        ])
-    
-    # Create model pipeline with LogisticRegression
-    model = Pipeline([
-        ('preprocessor', preprocessor),
-        ('classifier', LogisticRegression(random_state=42))
-    ])
-    
-    # Train model on TRAINING SET only
-    print("Training model...")
-    model.fit(X_train, y_train)
+    # Calculate accuracy
+    train_score = model.model.score(X_train, y_train)
+    test_score = model.model.score(X_test, y_test)
     
     # Save model
-    with open(args.model_output, 'wb') as f:
-        pickle.dump(model, f)
-    
-    # Calculate accuracy on TRAINING SET and TEST SET
-    train_score = model.score(X_train, y_train)
-    test_score = model.score(X_test, y_test)
+    model.save(args.model_output)
     
     print(f"Model saved to {args.model_output}")
     print(f"Training accuracy: {train_score:.4f}")
     print(f"Test accuracy: {test_score:.4f}")
     
-    # Save test set for evaluation script
+    # Save test set for evaluation
     test_df = X_test.copy()
     test_df['Survived'] = y_test
     test_output_path = args.model_output.replace('.pkl', '_test_set.csv')
