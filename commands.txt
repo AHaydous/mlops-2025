@@ -1,0 +1,589 @@
+C:\Users\ayaha\mlops-2025>git checkout -b feature/classes-preprocess
+Switched to a new branch 'feature/classes-preprocess'
+
+C:\Users\ayaha\mlops-2025>mkdir src\mlops_2025\preprocessing
+
+C:\Users\ayaha\mlops-2025>echo. > src\mlops_2025\preprocessing\__init__.py
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/preprocess.py --input data/raw/train.csv --output test_data/test_processed.csv
+Reading data from data/raw/train.csv
+Original shape: (891, 12)
+Processed shape: (891, 11)
+Missing values after processing:
+PassengerId    0
+Survived       0
+Pclass         0
+Name           0
+Sex            0
+Age            0
+SibSp          0
+Parch          0
+Ticket         0
+Fare           0
+Embarked       0
+dtype: int64
+Processed data saved to test_data/test_processed.csv
+
+C:\Users\ayaha\mlops-2025>git add .
+
+C:\Users\ayaha\mlops-2025>git commit -m "Add preprocessing classes and update script to use classes"
+[feature/classes-preprocess 6b59ae6] Add preprocessing classes and update script to use classes
+ 6 files changed, 950 insertions(+), 27 deletions(-)
+ create mode 100644 mkdir
+ create mode 100644 src/mlops_2025/preprocessing/__init__.py
+ create mode 100644 src/mlops_2025/preprocessing/base_preprocessor.py
+ create mode 100644 src/mlops_2025/preprocessing/preprocessor.py
+ create mode 100644 test_data/test_processed.csv
+
+C:\Users\ayaha\mlops-2025>git push origin feature/classes-preprocess
+Enumerating objects: 17, done.
+Counting objects: 100% (17/17), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (9/9), done.
+Writing objects: 100% (12/12), 22.41 KiB | 5.60 MiB/s, done.
+Total 12 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+remote:
+remote: Create a pull request for 'feature/classes-preprocess' on GitHub by visiting:
+remote:      https://github.com/AHaydous/mlops-2025/pull/new/feature/classes-preprocess
+remote:
+To https://github.com/AHaydous/mlops-2025.git
+ * [new branch]      feature/classes-preprocess -> feature/classes-preprocess
+
+C:\Users\ayaha\mlops-2025>git checkout -b feature/classes-featurize
+Switched to a new branch 'feature/classes-featurize'
+
+C:\Users\ayaha\mlops-2025>mkdir src\mlops_2025\features
+
+C:\Users\ayaha\mlops-2025>echo. > src\mlops_2025\features\__init__.py
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/featurize.py --input test_data/test_processed.csv --output test_data/test_features.csv
+Reading processed data from test_data/test_processed.csv
+Input shape: (891, 11)
+Improved features shape: (891, 9)
+Improved features columns: ['PassengerId', 'Survived', 'Pclass', 'Sex', 'Age', 'Fare', 'Embarked', 'Title', 'Family_size']
+Improved features saved to test_data/test_features.csv
+
+C:\Users\ayaha\mlops-2025>git add .
+
+C:\Users\ayaha\mlops-2025>git commit -m "Add feature engineering classes and update script to use classes"
+[feature/classes-featurize 5e45dc6] Add feature engineering classes and update script to use classes
+ 3 files changed, 48 insertions(+)
+ create mode 100644 src/mlops_2025/features/__init__.py
+ create mode 100644 src/mlops_2025/features/base_features_computer.py
+ create mode 100644 src/mlops_2025/features/features_computer.py
+
+C:\Users\ayaha\mlops-2025>git push origin feature/classes-featurize
+Enumerating objects: 21, done.
+Counting objects: 100% (21/21), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (13/13), done.
+Writing objects: 100% (15/15), 8.84 KiB | 1.47 MiB/s, done.
+Total 15 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (5/5), completed with 3 local objects.
+remote:
+remote: Create a pull request for 'feature/classes-featurize' on GitHub by visiting:
+remote:      https://github.com/AHaydous/mlops-2025/pull/new/feature/classes-featurize
+remote:
+To https://github.com/AHaydous/mlops-2025.git
+ * [new branch]      feature/classes-featurize -> feature/classes-featurize
+
+C:\Users\ayaha\mlops-2025>git checkout -b feature/classes-models
+Switched to a new branch 'feature/classes-models'
+
+C:\Users\ayaha\mlops-2025>mkdir src\mlops_2025\models
+
+C:\Users\ayaha\mlops-2025>echo. > src\mlops_2025\models\__init__.py
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/train.py --input test_data/test_features.csv --model_output test_data/test_model.pkl
+Reading features from test_data/test_features.csv
+Data shape: (891, 9)
+Training set: (712, 8)
+Test set: (179, 8)
+Model saved to test_data/test_model.pkl
+Training accuracy: 0.8329
+Test accuracy: 0.8380
+Test set saved to test_data/test_model_test_set.csv
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/train.py --input test_data/test_features.csv --model_output test_data/test_model.pkl
+Reading features from test_data/test_features.csv
+Data shape: (891, 9)
+Training set: (712, 8)
+Test set: (179, 8)
+Model saved to test_data/test_model.pkl
+Training accuracy: 0.8329
+Test accuracy: 0.8380
+Test set saved to test_data/test_model_test_set.csv
+
+C:\Users\ayaha\mlops-2025>
+C:\Users\ayaha\mlops-2025>
+C:\Users\ayaha\mlops-2025>git add .
+
+C:\Users\ayaha\mlops-2025>git commit -m "Add model classes and update training script to use classes"
+[feature/classes-models ad38de1] Add model classes and update training script to use classes
+ 6 files changed, 276 insertions(+), 39 deletions(-)
+ create mode 100644 src/mlops_2025/models/__init__.py
+ create mode 100644 src/mlops_2025/models/base_model.py
+ create mode 100644 src/mlops_2025/models/logistic_model.py
+ create mode 100644 test_data/test_model.pkl
+ create mode 100644 test_data/test_model_test_set.csv
+
+C:\Users\ayaha\mlops-2025>git push origin feature/classes-models
+Enumerating objects: 19, done.
+Counting objects: 100% (19/19), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (13/13), 5.32 KiB | 1.77 MiB/s, done.
+Total 13 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+remote:
+remote: Create a pull request for 'feature/classes-models' on GitHub by visiting:
+remote:      https://github.com/AHaydous/mlops-2025/pull/new/feature/classes-models
+remote:
+To https://github.com/AHaydous/mlops-2025.git
+ * [new branch]      feature/classes-models -> feature/classes-models
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/evaluate.py --model_input test_data/test_model.pkl --test_data test_data/test_model_test_set.csv --metrics_output test_data/test_metrics.json
+Loading model from test_data/test_model.pkl
+Loading test data from test_data/test_model_test_set.csv
+Making predictions...
+Accuracy: 0.8380
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.85      0.89      0.87       110
+           1       0.81      0.75      0.78        69
+
+    accuracy                           0.84       179
+   macro avg       0.83      0.82      0.83       179
+weighted avg       0.84      0.84      0.84       179
+
+Metrics saved to test_data/test_metrics.json
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/predict.py --model_input test_data/test_model.pkl --input_data test_data/test_model_test_set.csv --output test_data/test_predictions.csv
+Loading model from test_data/test_model.pkl
+Loading data from test_data/test_model_test_set.csv
+Making predictions...
+Predictions saved to test_data/test_predictions.csv
+Predicted 179 samples
+
+C:\Users\ayaha\mlops-2025>git add .
+
+C:\Users\ayaha\mlops-2025>git commit -m "Complete model classes: update evaluate.py and predict.py to use classes"
+[feature/classes-models 8a86a1e] Complete model classes: update evaluate.py and predict.py to use classes
+ 4 files changed, 229 insertions(+), 13 deletions(-)
+ create mode 100644 test_data/test_metrics.json
+ create mode 100644 test_data/test_predictions.csv
+
+C:\Users\ayaha\mlops-2025>git push origin feature/classes-models
+Enumerating objects: 13, done.
+Counting objects: 100% (13/13), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (8/8), done.
+Writing objects: 100% (8/8), 1.70 KiB | 579.00 KiB/s, done.
+Total 8 (delta 4), reused 1 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+To https://github.com/AHaydous/mlops-2025.git
+   ad38de1..8a86a1e  feature/classes-models -> feature/classes-models
+
+C:\Users\ayaha\mlops-2025>git checkout -b feature/model-rf
+Switched to a new branch 'feature/model-rf'
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/train.py --input test_data/test_features.csv --model_output test_data/logistic_model.pkl --model_type logistic
+Reading features from test_data/test_features.csv
+Data shape: (891, 9)
+Training set: (712, 8)
+Test set: (179, 8)
+Training Logistic Regression model...
+Model saved to test_data/logistic_model.pkl
+Training accuracy: 0.8329
+Test accuracy: 0.8380
+Test set saved to test_data/logistic_model_test_set.csv
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/train.py --input test_data/test_features.csv --model_output test_data/random_forest_model.pkl --model_type random_forest
+Reading features from test_data/test_features.csv
+Data shape: (891, 9)
+Training set: (712, 8)
+Test set: (179, 8)
+Training Random Forest model...
+Model saved to test_data/random_forest_model.pkl
+Training accuracy: 0.9846
+Test accuracy: 0.7989
+Test set saved to test_data/random_forest_model_test_set.csv
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/evaluate.py --model_input test_data/logistic_model.pkl --test_data test_data/logistic_model_test_set.csv --metrics_output test_data/logistic_metrics.json
+Loading model from test_data/logistic_model.pkl
+Loading test data from test_data/logistic_model_test_set.csv
+Making predictions...
+Accuracy: 0.8380
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.85      0.89      0.87       110
+           1       0.81      0.75      0.78        69
+
+    accuracy                           0.84       179
+   macro avg       0.83      0.82      0.83       179
+weighted avg       0.84      0.84      0.84       179
+
+Metrics saved to test_data/logistic_metrics.json
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/evaluate.py --model_input test_data/random_forest_model.pkl --test_data test_data/random_forest_model_test_set.csv --metrics_output test_data/random_forest_metrics.json
+Loading model from test_data/random_forest_model.pkl
+Loading test data from test_data/random_forest_model_test_set.csv
+Making predictions...
+Accuracy: 0.7989
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.82      0.86      0.84       110
+           1       0.76      0.70      0.73        69
+
+    accuracy                           0.80       179
+   macro avg       0.79      0.78      0.78       179
+weighted avg       0.80      0.80      0.80       179
+
+Metrics saved to test_data/random_forest_metrics.json
+
+C:\Users\ayaha\mlops-2025>uv add xgboost
+Resolved 120 packages in 31.60s
+      Built mlops-2025 @ file:///C:/Users/ayaha/mlops-2025
+Prepared 2 packages in 4m 49s
+Uninstalled 1 package in 2ms
+Installed 2 packages in 16ms
+ ~ mlops-2025==0.1.0 (from file:///C:/Users/ayaha/mlops-2025)
+ + xgboost==3.1.1
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/train.py --input test_data/test_features.csv --model_output test_data/xgboost_model.pkl --model_type xgboost
+Reading features from test_data/test_features.csv
+Data shape: (891, 9)
+Training set: (712, 8)
+Test set: (179, 8)
+Training XGBoost model...
+Model saved to test_data/xgboost_model.pkl
+Training accuracy: 0.9775
+Test accuracy: 0.8324
+Test set saved to test_data/xgboost_model_test_set.csv
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/evaluate.py --model_input test_data/xgboost_model.pkl --test_data test_data/xgboost_model_test_set.csv --metrics_output test_data/xgboost_metrics.json
+Loading model from test_data/xgboost_model.pkl
+Loading test data from test_data/xgboost_model_test_set.csv
+Making predictions...
+Accuracy: 0.8324
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.86      0.86      0.86       110
+           1       0.78      0.78      0.78        69
+
+    accuracy                           0.83       179
+   macro avg       0.82      0.82      0.82       179
+weighted avg       0.83      0.83      0.83       179
+
+Metrics saved to test_data/xgboost_metrics.json
+
+
+
+C:\Users\ayaha\mlops-2025>uv run python scripts/compare_models.py
+=== Model Comparison ===
+
+Logistic Regression:
+  Accuracy: 0.8380
+  Precision (Class 0): 0.8522
+  Recall (Class 0): 0.8909
+  Precision (Class 1): 0.8125
+  Recall (Class 1): 0.7536
+
+Random Forest:
+  Accuracy: 0.7989
+  Precision (Class 0): 0.8190
+  Recall (Class 0): 0.8636
+  Precision (Class 1): 0.7619
+  Recall (Class 1): 0.6957
+
+XGBoost:
+  Accuracy: 0.8324
+  Precision (Class 0): 0.8636
+  Recall (Class 0): 0.8636
+  Precision (Class 1): 0.7826
+  Recall (Class 1): 0.7826
+
+🎯 Best Model: Logistic Regression with accuracy 0.8380
+Comparison saved to metrics/model_comparison.csv
+
+C:\Users\ayaha\mlops-2025>git add scripts/compare_models.py
+
+C:\Users\ayaha\mlops-2025>git commit -m "Complete step 4: Add RandomForest and XGBoost implementations with tested pipeline and created comparison script"
+[feature/model-rf 055b2aa] Complete step 4: Add RandomForest and XGBoost implementations with tested pipeline and created comparison script
+ 9 files changed, 293 insertions(+), 15 deletions(-)
+ create mode 100644 classes_questions.txt
+ create mode 100644 scripts/compare_models.py
+ create mode 100644 src/mlops_2025/models/random_forest_model.py
+ create mode 100644 src/mlops_2025/models/xgboost_model.py
+
+C:\Users\ayaha\mlops-2025>git push origin feature/model-rf
+Enumerating objects: 25, done.
+Counting objects: 100% (25/25), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (15/15), 5.04 KiB | 859.00 KiB/s, done.
+Total 15 (delta 8), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (8/8), completed with 7 local objects.
+remote:
+remote: Create a pull request for 'feature/model-rf' on GitHub by visiting:
+remote:      https://github.com/AHaydous/mlops-2025/pull/new/feature/model-rf
+remote:
+To https://github.com/AHaydous/mlops-2025.git
+ * [new branch]      feature/model-rf -> feature/model-rf
+
+C:\Users\ayaha\mlops-2025>
+
+===================================================================================================================================
+
+Merging at the end:
+
+C:\Users\ayaha\mlops-2025>git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+C:\Users\ayaha\mlops-2025>git pull origin master
+From https://github.com/AHaydous/mlops-2025
+ * branch            master     -> FETCH_HEAD
+Already up to date.
+
+C:\Users\ayaha\mlops-2025>git merge feature/classes-preprocess
+Updating 0759309..ee7d4e7
+Fast-forward
+ mkdir                                             |   0
+ scripts/featurize.py                              |  41 +-
+ scripts/preprocess.py                             |  41 +-
+ src/mlops_2025/features/__init__.py               |   1 +
+ src/mlops_2025/features/base_features_computer.py |  10 +
+ src/mlops_2025/features/features_computer.py      |  37 +
+ src/mlops_2025/preprocessing/__init__.py          |   0
+ src/mlops_2025/preprocessing/base_preprocessor.py |  10 +
+ src/mlops_2025/preprocessing/preprocessor.py      |  34 +
+ test_data/test_features.csv                       | 892 ++++++++++++++++++++++
+ test_data/test_processed.csv                      | 892 ++++++++++++++++++++++
+ 11 files changed, 1902 insertions(+), 56 deletions(-)
+ create mode 100644 mkdir
+ create mode 100644 src/mlops_2025/features/__init__.py
+ create mode 100644 src/mlops_2025/features/base_features_computer.py
+ create mode 100644 src/mlops_2025/features/features_computer.py
+ create mode 100644 src/mlops_2025/preprocessing/__init__.py
+ create mode 100644 src/mlops_2025/preprocessing/base_preprocessor.py
+ create mode 100644 src/mlops_2025/preprocessing/preprocessor.py
+ create mode 100644 test_data/test_features.csv
+ create mode 100644 test_data/test_processed.csv
+
+C:\Users\ayaha\mlops-2025>git merge feature/classes-featurize
+Updating ee7d4e7..5e45dc6
+Fast-forward
+
+C:\Users\ayaha\mlops-2025>git merge feature/classes-models
+Updating 5e45dc6..8a86a1e
+Fast-forward
+ scripts/evaluate.py                     |  18 ++--
+ scripts/predict.py                      |  14 ++-
+ scripts/train.py                        |  53 +++-------
+ src/mlops_2025/models/__init__.py       |   1 +
+ src/mlops_2025/models/base_model.py     |  25 +++++
+ src/mlops_2025/models/logistic_model.py |  56 ++++++++++
+ test_data/test_metrics.json             |  30 ++++++
+ test_data/test_model.pkl                | Bin 0 -> 2670 bytes
+ test_data/test_model_test_set.csv       | 180 ++++++++++++++++++++++++++++++++
+ test_data/test_predictions.csv          | 180 ++++++++++++++++++++++++++++++++
+ 10 files changed, 505 insertions(+), 52 deletions(-)
+ create mode 100644 src/mlops_2025/models/__init__.py
+ create mode 100644 src/mlops_2025/models/base_model.py
+ create mode 100644 src/mlops_2025/models/logistic_model.py
+ create mode 100644 test_data/test_metrics.json
+ create mode 100644 test_data/test_model.pkl
+ create mode 100644 test_data/test_model_test_set.csv
+ create mode 100644 test_data/test_predictions.csv
+
+C:\Users\ayaha\mlops-2025>git merge feature/model-rf
+Updating 8a86a1e..6778fab
+Fast-forward
+ classes_questions.txt                        |  21 ++++
+ metrics/metrics.json                         |  30 -----
+ models/titanic_model.pkl                     | Bin 2670 -> 0 bytes
+ models/titanic_model_test_set.csv            | 180 ---------------------------
+ pyproject.toml                               |   3 +-
+ run_pipeline.sh                              |  44 +++++--
+ scripts/compare_models.py                    |  72 +++++++++++
+ scripts/train.py                             |  26 +++-
+ src/mlops_2025/models/__init__.py            |   7 +-
+ src/mlops_2025/models/random_forest_model.py |  53 ++++++++
+ src/mlops_2025/models/xgboost_model.py       |  53 ++++++++
+ uv.lock                                      |  29 +++++
+ 12 files changed, 293 insertions(+), 225 deletions(-)
+ create mode 100644 classes_questions.txt
+ delete mode 100644 metrics/metrics.json
+ delete mode 100644 models/titanic_model.pkl
+ delete mode 100644 models/titanic_model_test_set.csv
+ create mode 100644 scripts/compare_models.py
+ create mode 100644 src/mlops_2025/models/random_forest_model.py
+ create mode 100644 src/mlops_2025/models/xgboost_model.py
+
+C:\Users\ayaha\mlops-2025>git push origin master
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/AHaydous/mlops-2025.git
+   0759309..6778fab  master -> master
+
+C:\Users\ayaha\mlops-2025>git log --oneline -10
+6778fab (HEAD -> master, origin/master, origin/feature/model-rf, origin/HEAD, feature/model-rf) Lab completed: All requirements verified - classes, scripts, pipeline working and removed old model files
+055b2aa Complete step 4: Add RandomForest and XGBoost implementations with tested pipeline and created comparison script
+8a86a1e (origin/feature/classes-models, feature/classes-models) Complete model classes: update evaluate.py and predict.py to use classes
+ad38de1 Add model classes and update training script to use classes
+5e45dc6 (origin/feature/classes-featurize, feature/classes-featurize) Add feature engineering classes and update script to use classes
+d93af38 Remove feature engineering classes from preprocessing branch
+ee7d4e7 (feature/classes-preprocess) Add feature engineering classes and update script to use classes
+6b59ae6 (origin/feature/classes-preprocess) Add preprocessing classes and update script to use classes
+0759309 Add required questions.txt with lab answers and results
+65c72bf Complete ML pipeline with feature engineering - achieved 84.36% accuracy
+
+C:\Users\ayaha\mlops-2025>
+
+==================================================================================================================================
+
+
+THESE ARE THE FINAL RESULTS FROM GIT BASH:
+
+ayaha@AHaydous MINGW64 ~/mlops-2025 (feature/model-rf)
+$ chmod +x run_pipeline.sh
+
+ayaha@AHaydous MINGW64 ~/mlops-2025 (feature/model-rf)
+$ ./run_pipeline.sh
+Starting Titanic ML Pipeline...
+=== Step 1: Preprocessing data ===
+Reading data from data/raw/train.csv
+Original shape: (891, 12)
+Processed shape: (891, 11)
+Missing values after processing:
+PassengerId    0
+Survived       0
+Pclass         0
+Name           0
+Sex            0
+Age            0
+SibSp          0
+Parch          0
+Ticket         0
+Fare           0
+Embarked       0
+dtype: int64
+Processed data saved to data/processed/train_processed.csv
+=== Step 2: Feature engineering ===
+Reading processed data from data/processed/train_processed.csv
+Input shape: (891, 11)
+Improved features shape: (891, 9)
+Improved features columns: ['PassengerId', 'Survived', 'Pclass', 'Sex', 'Age', 'Fare', 'Embarked', 'Title', 'Family_size']
+Improved features saved to data/features/train_features.csv
+=== Step 3: Training models ===
+Training Logistic Regression...
+Reading features from data/features/train_features.csv
+Data shape: (891, 9)
+Training set: (712, 8)
+Test set: (179, 8)
+Training Logistic Regression model...
+Model saved to models/logistic_model.pkl
+Training accuracy: 0.8329
+Test accuracy: 0.8380
+Test set saved to models/logistic_model_test_set.csv
+Training Random Forest...
+Reading features from data/features/train_features.csv
+Data shape: (891, 9)
+Training set: (712, 8)
+Test set: (179, 8)
+Training Random Forest model...
+Model saved to models/random_forest_model.pkl
+Training accuracy: 0.9846
+Test accuracy: 0.7989
+Test set saved to models/random_forest_model_test_set.csv
+Training XGBoost...
+Reading features from data/features/train_features.csv
+Data shape: (891, 9)
+Training set: (712, 8)
+Test set: (179, 8)
+Training XGBoost model...
+Model saved to models/xgboost_model.pkl
+Training accuracy: 0.9775
+Test accuracy: 0.8324
+Test set saved to models/xgboost_model_test_set.csv
+=== Step 4: Evaluating models ===
+Loading model from models/logistic_model.pkl
+Loading test data from models/logistic_model_test_set.csv
+Making predictions...
+Accuracy: 0.8380
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.85      0.89      0.87       110
+           1       0.81      0.75      0.78        69
+
+    accuracy                           0.84       179
+   macro avg       0.83      0.82      0.83       179
+weighted avg       0.84      0.84      0.84       179
+
+Metrics saved to metrics/logistic_metrics.json
+Loading model from models/random_forest_model.pkl
+Loading test data from models/random_forest_model_test_set.csv
+Making predictions...
+Accuracy: 0.7989
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.82      0.86      0.84       110
+           1       0.76      0.70      0.73        69
+
+    accuracy                           0.80       179
+   macro avg       0.79      0.78      0.78       179
+weighted avg       0.80      0.80      0.80       179
+
+Metrics saved to metrics/random_forest_metrics.json
+Loading model from models/xgboost_model.pkl
+Loading test data from models/xgboost_model_test_set.csv
+Making predictions...
+Accuracy: 0.8324
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.86      0.86      0.86       110
+           1       0.78      0.78      0.78        69
+
+    accuracy                           0.83       179
+   macro avg       0.82      0.82      0.82       179
+weighted avg       0.83      0.83      0.83       179
+
+Metrics saved to metrics/xgboost_metrics.json
+=== Step 5: Comparing models ===
+=== Model Comparison ===
+
+Logistic Regression:
+  Accuracy: 0.8380
+  Precision (Class 0): 0.8522
+  Recall (Class 0): 0.8909
+  Precision (Class 1): 0.8125
+  Recall (Class 1): 0.7536
+
+Random Forest:
+  Accuracy: 0.7989
+  Precision (Class 0): 0.8190
+  Recall (Class 0): 0.8636
+  Precision (Class 1): 0.7619
+  Recall (Class 1): 0.6957
+
+XGBoost:
+  Accuracy: 0.8324
+  Precision (Class 0): 0.8636
+  Recall (Class 0): 0.8636
+  Precision (Class 1): 0.7826
+  Recall (Class 1): 0.7826
+
+🎯 Best Model: Logistic Regression with accuracy 0.8380
+Comparison saved to metrics/model_comparison.csv
+=== Pipeline completed! ===
+Pipeline finished — press Enter to close...
+
+
