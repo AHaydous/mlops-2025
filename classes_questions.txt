@@ -1,0 +1,21 @@
+Lab Questions:
+
+1. Model Comparison Results:
+   - Logistic Regression: 83.80% accuracy
+   - Random Forest: 79.89% accuracy  
+   - XGBoost: 83.24% accuracy
+   - Best performing model: Logistic Regression (83.80%)
+
+2. What can we still improve?
+   - Hyperparameter tuning for all models
+   - Cross-validation instead of single train-test split
+   - Feature selection and engineering optimization
+   - Model interpretability and feature importance analysis
+   - Better handling of class imbalance
+   - Add more evaluation metrics (AUC-ROC, precision-recall curves)
+   - Implement model serialization with versioning
+   - Add logging and experiment tracking
+   - Create configuration files for model parameters
+   - Add unit tests for all classes
+   - Implement data validation steps
+   - Add model monitoring for data drift

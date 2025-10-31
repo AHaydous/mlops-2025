@@ -12,7 +12,8 @@ dependencies = [
     "numpy",
     "matplotlib",
     "seaborn",
-    "scikit-learn"
+    "scikit-learn",
+    "xgboost",
 ]
 
 [project.optional-dependencies]

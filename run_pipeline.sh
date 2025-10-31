@@ -27,18 +27,46 @@ uv run python scripts/featurize.py \
     --input data/processed/train_processed.csv \
     --output data/features/train_features.csv
 
-# Step 3: Training (this now creates models/titanic_model_test_set.csv)
-echo "=== Step 3: Training model ==="
+# Step 3: Training all three models
+echo "=== Step 3: Training models ==="
+echo "Training Logistic Regression..."
 uv run python scripts/train.py \
     --input data/features/train_features.csv \
-    --model_output models/titanic_model.pkl
+    --model_output models/logistic_model.pkl \
+    --model_type logistic
 
-# Step 4: Evaluation - USE THE PROPER TEST SET!
-echo "=== Step 4: Evaluating model ==="
+echo "Training Random Forest..."
+uv run python scripts/train.py \
+    --input data/features/train_features.csv \
+    --model_output models/random_forest_model.pkl \
+    --model_type random_forest
+
+echo "Training XGBoost..."
+uv run python scripts/train.py \
+    --input data/features/train_features.csv \
+    --model_output models/xgboost_model.pkl \
+    --model_type xgboost
+
+# Step 4: Evaluate all models
+echo "=== Step 4: Evaluating models ==="
 uv run python scripts/evaluate.py \
-    --model_input models/titanic_model.pkl \
-    --test_data models/titanic_model_test_set.csv \
-    --metrics_output metrics/metrics.json
+    --model_input models/logistic_model.pkl \
+    --test_data models/logistic_model_test_set.csv \
+    --metrics_output metrics/logistic_metrics.json
+
+uv run python scripts/evaluate.py \
+    --model_input models/random_forest_model.pkl \
+    --test_data models/random_forest_model_test_set.csv \
+    --metrics_output metrics/random_forest_metrics.json
+
+uv run python scripts/evaluate.py \
+    --model_input models/xgboost_model.pkl \
+    --test_data models/xgboost_model_test_set.csv \
+    --metrics_output metrics/xgboost_metrics.json
+
+# Step 5: Compare models
+echo "=== Step 5: Comparing models ==="
+uv run python scripts/compare_models.py
 
 echo "=== Pipeline completed! ==="
 read -p "Pipeline finished — press Enter to close..."
